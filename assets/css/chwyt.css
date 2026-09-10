@@ -146,6 +146,8 @@ h3 { text-transform: uppercase; letter-spacing: -0.02em; }
 .field select,
 .field textarea { border-width: 2px; }
 
+.quotes-dots button { border-radius: 0; }
+
 .switcher { border-radius: 0; }
 .switcher a { border-radius: 0; text-transform: uppercase; font-weight: 700; }
 

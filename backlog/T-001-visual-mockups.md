@@ -73,7 +73,7 @@ Serwowane z gałęzi `main`, katalog `/`. Każdy push publikuje się sam, bez kl
 Repozytorium jest publiczne, bo Pages tego wymaga na darmowym planie. Strony mają
 `noindex`, więc nie trafiają do wyszukiwarek.
 
-Lokalnie: `python -m http.server 8123`, potem `http://localhost:8123`.
+Lokalnie: `python -m http.server 8090`, potem `http://localhost:8090`.
 
 ## Pytania do klienta
 

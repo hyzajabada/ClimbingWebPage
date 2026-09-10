@@ -23,19 +23,27 @@
   var toggle = document.querySelector('.nav-toggle');
   var nav = document.querySelector('.site-nav');
 
-  function closeNav() {
+  /* Jedno miejsce ustawiające stan menu. Wcześniej otwieranie i zamykanie
+     robiły to osobno i mogły się rozjechać. Klasa na pasku jest tu istotna:
+     zdejmuje z niego backdrop-filter, który sprawiał, że pełnoekranowe menu
+     kotwiczyło się do paska zamiast do okna. */
+  function setNav(open) {
     if (!toggle || !nav) return;
-    toggle.setAttribute('aria-expanded', 'false');
-    nav.classList.remove('is-open');
-    document.body.style.removeProperty('overflow');
+    toggle.setAttribute('aria-expanded', String(open));
+    nav.classList.toggle('is-open', open);
+    if (header) header.classList.toggle('nav-open', open);
+    if (open) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.removeProperty('overflow');
+    }
   }
+
+  function closeNav() { setNav(false); }
 
   if (toggle && nav) {
     toggle.addEventListener('click', function () {
-      var open = toggle.getAttribute('aria-expanded') === 'true';
-      toggle.setAttribute('aria-expanded', String(!open));
-      nav.classList.toggle('is-open', !open);
-      document.body.style.overflow = open ? '' : 'hidden';
+      setNav(toggle.getAttribute('aria-expanded') !== 'true');
     });
 
     nav.addEventListener('click', function (event) {
@@ -45,6 +53,17 @@
     document.addEventListener('keydown', function (event) {
       if (event.key === 'Escape') closeNav();
     });
+
+    // Po przekroczeniu progu mobilnego menu przestaje istnieć jako warstwa,
+    // ale stan zostawał otwarty i blokował przewijanie strony.
+    var wide = window.matchMedia('(min-width: 52.0625rem)');
+    var onBreakpoint = function (event) { if (event.matches) closeNav(); };
+
+    if (typeof wide.addEventListener === 'function') {
+      wide.addEventListener('change', onBreakpoint);
+    } else if (typeof wide.addListener === 'function') {
+      wide.addListener(onBreakpoint);
+    }
   }
 
   /* ----------------------------------------------------- reveal on scroll */
@@ -262,6 +281,64 @@
       tail.className = 'cal-day is-muted';
       calGrid.appendChild(tail);
     }
+  }
+
+  /* ------------------------------------------------- karuzela opinii */
+
+  /* Poziome przewijanie i przyciąganie robi CSS. Tutaj dokładamy tylko
+     kropki: pokazują, ile jest opinii i którą się widzi. Na szerokim
+     ekranie CSS je chowa, a siatka działa jak wcześniej. */
+  var quotes = document.querySelector('.quotes');
+  var slides = quotes ? Array.prototype.slice.call(quotes.children) : [];
+
+  if (quotes && slides.length > 1) {
+    var dots = document.createElement('div');
+    dots.className = 'quotes-dots';
+
+    var offsetOf = function (slide) {
+      return slide.getBoundingClientRect().left
+        - quotes.getBoundingClientRect().left
+        + quotes.scrollLeft;
+    };
+
+    slides.forEach(function (slide, index) {
+      var dot = document.createElement('button');
+      dot.type = 'button';
+      dot.setAttribute('aria-label', 'Opinia ' + (index + 1) + ' z ' + slides.length);
+      dot.addEventListener('click', function () {
+        quotes.scrollTo({
+          left: offsetOf(slide),
+          behavior: reducedMotion ? 'auto' : 'smooth'
+        });
+      });
+      dots.appendChild(dot);
+    });
+
+    quotes.parentNode.insertBefore(dots, quotes.nextSibling);
+
+    var syncDots = function () {
+      var middle = quotes.scrollLeft + quotes.clientWidth / 2;
+      var nearest = 0;
+      var shortest = Infinity;
+
+      slides.forEach(function (slide, index) {
+        var distance = Math.abs(offsetOf(slide) + slide.offsetWidth / 2 - middle);
+        if (distance < shortest) { shortest = distance; nearest = index; }
+      });
+
+      Array.prototype.forEach.call(dots.children, function (dot, index) {
+        dot.setAttribute('aria-current', String(index === nearest));
+      });
+    };
+
+    var pending = false;
+    quotes.addEventListener('scroll', function () {
+      if (pending) return;
+      pending = true;
+      requestAnimationFrame(function () { syncDots(); pending = false; });
+    }, { passive: true });
+
+    syncDots();
   }
 
   function makeSlot(text) {

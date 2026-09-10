@@ -162,11 +162,29 @@ p:last-child { margin-bottom: 0; }
   padding-block: .7rem;
 }
 
+/* KLUCZOWE: element z backdrop-filter staje się blokiem zawierającym dla
+   potomków position: fixed. Menu mobilne jest dzieckiem paska, więc przy
+   przewiniętej stronie przyklejało się do paska (66 px wysokości) zamiast do
+   okna, linki lądowały na treści i nic nie dawało się zamknąć. Na czas
+   otwartego menu rozmycie znika i pasek przestaje być blokiem zawierającym. */
+.site-header.nav-open,
+.site-header.nav-open.is-stuck {
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-bottom-color: transparent;
+}
+
 .header-inner {
   display: flex;
   align-items: center;
   gap: 1.5rem;
 }
+
+/* Logo i przycisk menu muszą zostać nad pełnoekranową warstwą menu,
+   inaczej warstwa przykrywa krzyżyk i zamknięcie przestaje działać. */
+.brand,
+.nav-toggle { position: relative; z-index: 2; }
 
 .brand {
   display: inline-flex;
@@ -504,6 +522,9 @@ p:last-child { margin-bottom: 0; }
 /* --------------------------------------------------------------- quotes -- */
 
 .quotes { display: grid; grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); gap: var(--gap); }
+
+/* Kropki pod karuzelą — widoczne tylko tam, gdzie karuzela istnieje. */
+.quotes-dots { display: none; }
 .quote {
   padding: clamp(1.75rem, 3vw, 2.5rem);
   border: 1px solid var(--line);
@@ -788,17 +809,61 @@ p:last-child { margin-bottom: 0; }
   .site-nav {
     position: fixed;
     inset: 0;
+    z-index: 1;
     background: var(--bg);
     display: grid;
     place-items: center;
     opacity: 0;
     visibility: hidden;
+    /* Bez tego półprzezroczysta warstwa w trakcie animacji łapie kliknięcia
+       i zjada je zanim dotrą do przycisku zamykania. */
+    pointer-events: none;
     transition: opacity .35s ease, visibility .35s ease;
   }
-  .site-nav.is-open { opacity: 1; visibility: visible; }
+  .site-nav.is-open { opacity: 1; visibility: visible; pointer-events: auto; }
   .site-nav ul { flex-direction: column; gap: 1.75rem; text-align: center; }
   .site-nav a { font-size: 1.35rem; }
   .scroll-hint { display: none; }
+
+  /* Opinie jako karuzela: karty stoją obok siebie na jednym poziomie i
+     przesuwa się je palcem. Pionowo zajmowały ekran po ekranie. */
+  .quotes {
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: 84%;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    padding-bottom: .25rem;
+  }
+  .quotes::-webkit-scrollbar { display: none; }
+  /* Przyciąganie do początku, nie do środka: przy pierwszej karcie
+     wyśrodkowanie zostawiało szeroką dziurę po lewej. */
+  .quote { scroll-snap-align: start; }
+
+  .quotes-dots {
+    display: flex;
+    justify-content: center;
+    gap: .55rem;
+    margin-top: 1.75rem;
+  }
+  .quotes-dots button {
+    width: .5rem;
+    height: .5rem;
+    padding: 0;
+    border: 1px solid var(--text-faint);
+    border-radius: 50%;
+    background: transparent;
+    cursor: pointer;
+    transition: background-color .3s ease, border-color .3s ease, transform .3s ease;
+  }
+  .quotes-dots button[aria-current="true"] {
+    background: var(--accent);
+    border-color: var(--accent);
+    transform: scale(1.35);
+  }
+
   /* Na wąskim ekranie opis potrzebnego zdjęcia nachodzi na nagłówek.
      Jest informacją dla właściciela strony, nie dla odwiedzającego — znika. */
   .hero-figure .ph-label { display: none; }
