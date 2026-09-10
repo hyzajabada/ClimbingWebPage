@@ -1,0 +1,146 @@
+/* ==========================================================================
+   Wariant A — "Skała"
+   Ciemny, kinowy. Grafit, bursztynowy akcent, wielkie cienkie nagłówki
+   w kroju wąskim, pełnoekranowe hero z parallaxem.
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;400&family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  /* kolory */
+  --bg:         #0E0E10;
+  --surface:    #17171A;
+  --text:       #F5F3EF;
+  --text-dim:   #A2A2AB;
+  --text-faint: #63636D;
+  --accent:     #C8873F;
+  --accent-ink: #0E0E10;
+  --line:       rgb(245 243 239 / .12);
+  --header-bg:  rgb(14 14 16 / .72);
+
+  /* placeholdery zdjęć */
+  --ph-bg:     #131316;
+  --ph-stripe: rgb(245 243 239 / .025);
+  --ph-line:   rgb(200 135 63 / .35);
+  --ph-text:   #85858E;
+
+  /* typografia */
+  --font-head: 'Oswald', 'Arial Narrow', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-ui:   'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --fw-head:   200;
+  --ls-head:   -0.005em;
+
+  --fs-body: 1rem;
+  --fs-lede: clamp(1.05rem, 1.5vw, 1.25rem);
+  --fs-h1:   clamp(3rem, 8.5vw, 7rem);
+  --fs-h2:   clamp(2.1rem, 4.6vw, 3.6rem);
+  --fs-h3:   clamp(1.3rem, 2vw, 1.65rem);
+
+  /* miary */
+  --maxw:         76rem;
+  --gap:          clamp(1.25rem, 2.5vw, 2rem);
+  --section-pad:  clamp(5rem, 11vw, 9rem);
+  --hero-h:       100svh;
+  --radius-btn:   2px;
+  --radius-card:  4px;
+  --radius-media: 4px;
+}
+
+/* Nagłówki w Oswaldzie są wąskie — lekko je rozstrzelamy, żeby nie zbijały
+   się w blok przy dużych rozmiarach. */
+h1, h2 { letter-spacing: -0.01em; }
+
+/* ------------------------------------------------------------------ hero -- */
+
+.hero { align-items: flex-end; }
+
+/* Zapas głównie pod spodem: parallax przesuwa warstwę w dół, więc to tam
+   robi się dziura. U góry wystarczy niewielki naddatek. */
+.hero-media .hero-figure {
+  inset: -6% 0 -20% 0;
+  border: 0;
+  border-radius: 0;
+  /* Opis potrzebnego zdjęcia w prawym górnym rogu — pod paskiem nawigacji
+     i z dala od nagłówka, który trzyma lewą krawędź. */
+  align-content: start;
+  justify-items: end;
+  padding: 8rem clamp(1.25rem, 4vw, 3rem) 0 0;
+}
+
+/* Przyciemnienie i winieta, żeby tekst czytał się na dowolnym zdjęciu. */
+.hero-media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(to top, var(--bg) 2%, rgb(14 14 16 / .55) 45%, rgb(14 14 16 / .75) 100%),
+    radial-gradient(120% 80% at 70% 40%, transparent 35%, rgb(14 14 16 / .85) 100%);
+}
+
+.hero-title { font-weight: 200; }
+.hero-title br { display: block; }
+
+.hero-lede { max-width: 32rem; }
+
+/* --------------------------------------------------------------- sekcje -- */
+
+/* Cienka bursztynowa nitka na styku sekcji — porządkuje długą stronę. */
+.section + .section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: max(1.25rem, (100% - var(--maxw)) / 2);
+  width: clamp(3rem, 8vw, 7rem);
+  height: 1px;
+  background: var(--accent);
+  opacity: .55;
+}
+
+#o-mnie { background: linear-gradient(var(--bg), #101013); }
+#cennik { background: #101013; }
+#kontakt { background: linear-gradient(#101013, var(--bg)); }
+
+.section-title { font-weight: 200; }
+
+/* ----------------------------------------------------------- komponenty -- */
+
+.card { background: rgb(255 255 255 / .022); }
+.card:hover { background: rgb(255 255 255 / .04); }
+
+.quote { background: rgb(255 255 255 / .022); }
+
+.price-value { font-weight: 300; }
+
+.stat-value { font-weight: 200; }
+
+.btn-primary:hover {
+  --btn-bg: #D9974C;
+  --btn-line: #D9974C;
+}
+
+/* Delikatny połysk przejeżdżający przez główny przycisk. */
+.btn-primary::after {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 -60%;
+  width: 40%;
+  background: linear-gradient(100deg, transparent, rgb(255 255 255 / .35), transparent);
+  transform: skewX(-18deg);
+  transition: left .6s cubic-bezier(.2, .8, .2, 1);
+}
+.btn-primary:hover::after { left: 110%; }
+
+.brand-name { font-family: var(--font-head); font-weight: 300; font-size: 1.05rem; letter-spacing: .1em; text-transform: uppercase; }
+
+.marquee { display: none; }
+
+/* ---------------------------------------------------------- responsywne -- */
+
+@media (max-width: 52rem) {
+  .hero { min-height: 88svh; }
+  .hero-media::after {
+    background: linear-gradient(to top, var(--bg) 4%, rgb(14 14 16 / .7) 60%, rgb(14 14 16 / .8) 100%);
+  }
+}

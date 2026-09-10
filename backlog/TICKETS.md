@@ -12,6 +12,6 @@ from `backlog/T-###-<slug>.md`, never the other way round.
 
 | Id | Title | Status | Blocked-by |
 |---|---|---|---|
-| _no tickets yet_ | | | |
+| [T-001](T-001-visual-mockups.md) | Makiety wizualne strony trenera | review | — |
 
 Run `/intake` to turn requirement documents in `backlog/PRD/` into tickets.

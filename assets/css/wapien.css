@@ -1,0 +1,145 @@
+/* ==========================================================================
+   Wariant B — "Wapień"
+   Jasny, redakcyjny. Złamana biel, głęboka zieleń, szeryfowe nagłówki,
+   hero dzielone na kolumnę tekstu i kolumnę zdjęcia. Ruch spokojny.
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  /* kolory */
+  --bg:         #FAF8F5;
+  --surface:    #F2EEE7;
+  --text:       #1A1A18;
+  --text-dim:   #5C5952;
+  --text-faint: #97928A;
+  --accent:     #2F4F3A;
+  --accent-ink: #FAF8F5;
+  --line:       rgb(26 26 24 / .14);
+  --header-bg:  rgb(250 248 245 / .82);
+
+  /* placeholdery zdjęć */
+  --ph-bg:     #EDE8DF;
+  --ph-stripe: rgb(26 26 24 / .035);
+  --ph-line:   rgb(47 79 58 / .35);
+  --ph-text:   #78736B;
+
+  /* typografia */
+  --font-head: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-ui:   'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --fw-head:   500;
+  --ls-head:   -0.015em;
+
+  --fs-body: 1.02rem;
+  --fs-lede: clamp(1.08rem, 1.5vw, 1.3rem);
+  --fs-h1:   clamp(2.6rem, 6vw, 4.75rem);
+  --fs-h2:   clamp(2rem, 4vw, 3.1rem);
+  --fs-h3:   clamp(1.25rem, 1.9vw, 1.55rem);
+
+  /* miary */
+  --maxw:         72rem;
+  --gap:          clamp(1.5rem, 3vw, 2.5rem);
+  --section-pad:  clamp(5rem, 10vw, 8.5rem);
+  --hero-h:       92svh;
+  --radius-btn:   999px;
+  --radius-card:  14px;
+  --radius-media: 14px;
+}
+
+body { line-height: 1.72; }
+
+/* ------------------------------------------------------------------ hero -- */
+
+/* Zdjęcie zajmuje prawą część ekranu zamiast całego tła. Układ czyta się
+   jak rozkładówka w magazynie: tekst po lewej, obraz po prawej. */
+.hero {
+  align-items: center;
+  padding-block: clamp(9rem, 20vh, 13rem) var(--section-pad);
+}
+
+.hero-media {
+  left: auto;
+  right: 0;
+  width: 44%;
+  padding: 1.5rem 1.5rem 1.5rem 0;
+}
+.hero-media .hero-figure {
+  position: relative;
+  inset: auto;
+  height: 100%;
+  border-radius: var(--radius-media);
+}
+
+.hero-inner { padding-right: 46%; }
+.hero-title { font-weight: 500; }
+.hero-lede { max-width: 27rem; }
+
+/* Hero jest tu wyśrodkowane i kończy się wysoko — podpowiedź przewijania
+   nie miałaby czego wskazywać. */
+.scroll-hint { display: none; }
+
+/* --------------------------------------------------------------- sekcje -- */
+
+#metoda,
+#opinie { background: var(--surface); }
+
+.section-title { font-weight: 500; }
+
+/* Kursywa w akcentach — drobiazg, który podbija redakcyjny charakter. */
+.section-title em,
+.hero-title em { font-style: italic; font-weight: 400; }
+
+.eyebrow { color: var(--accent); }
+
+/* ----------------------------------------------------------- komponenty -- */
+
+.card { background: var(--bg); box-shadow: 0 1px 2px rgb(26 26 24 / .04); }
+.card:hover { box-shadow: 0 18px 45px rgb(26 26 24 / .09); }
+
+.quote { background: var(--bg); }
+.quote::before { font-size: 4rem; opacity: .8; }
+
+.credentials li::before { transform: none; border-radius: 50%; }
+
+.price-row:hover { background: var(--surface); }
+.price-value { font-weight: 500; }
+
+.stat-value { font-weight: 500; }
+
+.calendar { background: var(--bg); }
+.cal-day,
+.cal-dow { background: var(--bg); }
+
+.btn { font-weight: 600; }
+.btn-primary:hover { --btn-bg: #3A6249; --btn-line: #3A6249; }
+
+.brand-name { font-family: var(--font-head); font-weight: 600; font-size: 1.15rem; letter-spacing: -0.01em; }
+.brand-mark { border-radius: 50%; transform: none; }
+
+.notice { background: var(--surface); border-radius: 0 var(--radius-card) var(--radius-card) 0; }
+
+.marquee { display: none; }
+
+.mockup-badge { border-color: var(--line); color: var(--text-dim); }
+
+/* ---------------------------------------------------------- responsywne -- */
+
+@media (max-width: 62rem) {
+  /* Zdjęcie jest pierwsze w kodzie, więc na wąskim ekranie odwracamy
+     kolejność w kolumnie: najpierw tekst, zdjęcie pod nim. */
+  .hero {
+    flex-direction: column-reverse;
+    justify-content: flex-end;
+    min-height: 0;
+    padding-block: clamp(8rem, 18vh, 10rem) 0;
+  }
+  .hero-media {
+    position: relative;
+    width: auto;
+    padding: 0;
+    margin-top: 3rem;
+  }
+  .hero-media .hero-figure { aspect-ratio: 4 / 3; height: auto; }
+  .hero-inner { padding-right: 0; }
+}

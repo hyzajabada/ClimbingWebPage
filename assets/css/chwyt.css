@@ -1,0 +1,166 @@
+/* ==========================================================================
+   Wariant C — "Chwyt"
+   Sportowy, kontrastowy. Czerń, limonkowy akcent, gigantyczna typografia
+   cięta do krawędzi, ostre narożniki, przewijający się pasek haseł.
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  /* kolory */
+  --bg:         #0A0A0A;
+  --surface:    #131313;
+  --text:       #FFFFFF;
+  --text-dim:   #9A9A9A;
+  --text-faint: #5A5A5A;
+  --accent:     #D6FF3D;
+  --accent-ink: #0A0A0A;
+  --line:       rgb(255 255 255 / .16);
+  --header-bg:  rgb(10 10 10 / .78);
+
+  /* placeholdery zdjęć */
+  --ph-bg:     #16170F;
+  --ph-stripe: rgb(214 255 61 / .05);
+  --ph-line:   rgb(214 255 61 / .4);
+  --ph-text:   #7C7C7C;
+
+  /* typografia */
+  --font-head: 'Archivo', 'Helvetica Neue', Arial, sans-serif;
+  --font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-ui:   'Archivo', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --fw-head:   800;
+  --ls-head:   -0.04em;
+
+  --fs-body: 1rem;
+  --fs-lede: clamp(1.05rem, 1.5vw, 1.2rem);
+  --fs-h1:   clamp(2.8rem, 8vw, 6.25rem);
+  --fs-h2:   clamp(2.4rem, 6vw, 4.5rem);
+  --fs-h3:   clamp(1.3rem, 2vw, 1.7rem);
+
+  /* miary */
+  --maxw:         82rem;
+  --gap:          clamp(1rem, 2vw, 1.5rem);
+  --section-pad:  clamp(4.5rem, 10vw, 8rem);
+  --hero-h:       100svh;
+  --radius-btn:   0;
+  --radius-card:  0;
+  --radius-media: 0;
+}
+
+h1, h2 { text-transform: uppercase; line-height: .92; }
+h3 { text-transform: uppercase; letter-spacing: -0.02em; }
+
+/* ------------------------------------------------------------------ hero -- */
+
+/* Asymetria: tekst trzyma lewą krawędź, zdjęcie wchodzi z prawej i jest
+   przycięte. Nagłówek celowo wychodzi poza siatkę. */
+.hero { align-items: center; }
+
+.hero-media {
+  left: 55%;
+  width: 45%;
+  inset-block: 14vh 18vh;
+}
+.hero-media .hero-figure { inset: 0; }
+
+.hero-inner { padding-right: 34%; }
+
+.hero-title {
+  margin-left: -0.06em;
+  font-weight: 900;
+}
+.hero-title br { display: block; }
+
+.hero-lede { max-width: 26rem; }
+
+.scroll-hint { color: var(--accent); }
+
+/* -------------------------------------------------------------- marquee -- */
+
+.marquee { display: block; background: var(--accent); border-color: var(--accent); }
+.marquee span { color: var(--accent-ink); text-transform: uppercase; }
+.marquee span::after { color: var(--accent-ink); }
+
+/* --------------------------------------------------------------- header -- */
+
+/* Numerowane pozycje menu — drobiazg z estetyki portfolio. */
+.site-nav ul { counter-reset: nav; }
+.site-nav a { text-transform: uppercase; font-size: .78rem; letter-spacing: .08em; font-weight: 600; }
+.site-nav a::before {
+  counter-increment: nav;
+  content: "0" counter(nav) " ";
+  color: var(--text-faint);
+  margin-right: .3rem;
+}
+.site-nav a.is-active::before { color: var(--accent); }
+
+.brand-name { font-family: var(--font-head); font-weight: 900; text-transform: uppercase; letter-spacing: -0.02em; font-size: 1.1rem; }
+.brand-mark { border-radius: 0; transform: none; background: var(--accent); border-color: var(--accent); }
+
+/* ----------------------------------------------------------- komponenty -- */
+
+.eyebrow { font-weight: 700; }
+.eyebrow::before { height: 3px; background: var(--accent); }
+
+.btn { text-transform: uppercase; font-weight: 700; letter-spacing: .06em; }
+.btn-ghost:hover { --btn-bg: var(--accent); --btn-fg: var(--accent-ink); --btn-line: var(--accent); }
+.btn-primary:hover { --btn-bg: transparent; --btn-fg: var(--accent); }
+
+.card { border-width: 2px; }
+.card:hover { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.card:hover p,
+.card:hover ul li { color: rgb(10 10 10 / .78); }
+.card:hover .card-tag { color: var(--accent-ink); border-color: rgb(10 10 10 / .3); }
+.card:hover ul li::before,
+.card:hover .card-foot { border-color: rgb(10 10 10 / .2); color: var(--accent-ink); }
+.card:hover .btn { --btn-fg: var(--accent-ink); --btn-line: rgb(10 10 10 / .35); }
+
+.card-tag { border-radius: 0; font-weight: 700; }
+
+.step { border-top-width: 2px; }
+.step-no { font-weight: 800; font-size: 1.1rem; letter-spacing: .04em; }
+
+.price-row { border-bottom-width: 2px; }
+.price-list { border-top-width: 2px; }
+.price-name { text-transform: uppercase; }
+.price-value { font-weight: 900; }
+.price-row:hover { background: var(--accent); }
+.price-row:hover .price-name,
+.price-row:hover .price-desc,
+.price-row:hover .price-value,
+.price-row:hover .price-value small { color: var(--accent-ink); }
+
+.stat-value { font-weight: 900; }
+.stats { border-top-width: 2px; }
+
+.quote { border-width: 2px; }
+.quote::before { font-size: 4.5rem; }
+
+.notice { border-left-width: 4px; }
+
+.calendar { border-width: 2px; }
+.cal-slot { border-radius: 0; font-weight: 700; }
+
+.field input,
+.field select,
+.field textarea { border-width: 2px; }
+
+.switcher { border-radius: 0; }
+.switcher a { border-radius: 0; text-transform: uppercase; font-weight: 700; }
+
+.mockup-badge { border-radius: 0; font-weight: 700; }
+
+.site-footer { border-top-width: 2px; }
+
+/* ---------------------------------------------------------- responsywne -- */
+
+@media (max-width: 62rem) {
+  .hero-inner { padding-right: 0; }
+  .hero-media { left: 45%; width: 55%; opacity: .35; }
+}
+
+@media (max-width: 52rem) {
+  .hero { align-items: flex-end; }
+  .hero-media { left: 0; width: 100%; inset-block: 0; opacity: .22; }
+  .hero-title { margin-left: 0; }
+}

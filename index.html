@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Makiety strony trenera — wybór wariantu</title>
+<meta name="description" content="Trzy kierunki wizualne strony dla trenera wspinaczki. Wybierz jeden.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+
+  :root {
+    --bg: #101012;
+    --surface: #191A1D;
+    --text: #F3F2EF;
+    --dim: #9E9EA7;
+    --faint: #64646E;
+    --line: rgb(243 242 239 / .13);
+    --accent: #C8873F;
+    --font: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap { width: min(100% - 2.5rem, 68rem); margin-inline: auto; }
+
+  header.page { padding: clamp(4rem, 10vw, 7rem) 0 clamp(2.5rem, 5vw, 4rem); }
+
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: .6rem;
+    font-size: .72rem; letter-spacing: .2em; text-transform: uppercase;
+    color: var(--accent); margin: 0 0 1.5rem;
+  }
+  .eyebrow::before { content: ""; width: 2rem; height: 1px; background: currentColor; }
+
+  h1 {
+    font-size: clamp(2.1rem, 5.5vw, 3.6rem);
+    line-height: 1.08; letter-spacing: -0.03em; font-weight: 600;
+    margin: 0 0 1.5rem; max-width: 20ch; text-wrap: balance;
+  }
+
+  p.lede { font-size: clamp(1.02rem, 1.5vw, 1.2rem); color: var(--dim); max-width: 46rem; margin: 0 0 1.25rem; }
+  p.lede strong { color: var(--text); font-weight: 600; }
+
+  /* --------------------------------------------------------- karty ----- */
+
+  .variants {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+    gap: 1.5rem;
+    padding-bottom: clamp(3rem, 7vw, 5rem);
+  }
+
+  .variant {
+    display: flex; flex-direction: column;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    overflow: hidden;
+    text-decoration: none; color: inherit;
+    transition: transform .3s cubic-bezier(.2,.8,.2,1), border-color .3s ease;
+  }
+  .variant:hover { transform: translateY(-6px); border-color: var(--accent); }
+  .variant:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+  /* Miniatura: uproszczony podgląd hero danego wariantu. */
+  .thumb { aspect-ratio: 16 / 10; padding: 1.15rem; display: flex; flex-direction: column; justify-content: flex-end; gap: .5rem; }
+  .thumb .bar { position: absolute; top: 0; left: 0; right: 0; height: 1.6rem; border-bottom: 1px solid currentColor; opacity: .3; }
+  .thumb-inner { position: relative; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; gap: .45rem; }
+  .t-head { font-size: 1.55rem; line-height: .95; font-weight: 700; letter-spacing: -0.03em; }
+  .t-sub { height: .3rem; width: 55%; border-radius: 2px; opacity: .45; background: currentColor; }
+  .t-btn { align-self: flex-start; font-size: .55rem; letter-spacing: .14em; text-transform: uppercase; padding: .3rem .7rem; font-weight: 700; }
+
+  .thumb-a { background: #0E0E10; color: #F5F3EF; }
+  .thumb-a .t-head { font-weight: 200; font-size: 1.9rem; font-stretch: condensed; }
+  .thumb-a .t-btn { background: #C8873F; color: #0E0E10; }
+
+  .thumb-b { background: #FAF8F5; color: #1A1A18; }
+  .thumb-b .t-head { font-family: Georgia, serif; font-weight: 500; }
+  .thumb-b .t-btn { background: #2F4F3A; color: #FAF8F5; border-radius: 999px; }
+
+  .thumb-c { background: #0A0A0A; color: #FFFFFF; }
+  .thumb-c .t-head { font-size: 2rem; font-weight: 900; text-transform: uppercase; letter-spacing: -0.05em; }
+  .thumb-c .t-btn { background: #D6FF3D; color: #0A0A0A; }
+
+  .variant-body { padding: 1.5rem; display: flex; flex-direction: column; gap: .9rem; flex: 1; }
+  .variant h2 { font-size: 1.25rem; margin: 0; letter-spacing: -0.02em; }
+  .variant h2 span { color: var(--faint); font-weight: 500; margin-right: .4rem; }
+  .variant p { margin: 0; font-size: .92rem; color: var(--dim); }
+  .swatches { display: flex; gap: .35rem; margin-top: auto; padding-top: .5rem; }
+  .swatches i { width: 1.5rem; height: 1.5rem; border-radius: 3px; border: 1px solid var(--line); }
+  .open {
+    display: inline-flex; align-items: center; gap: .5rem;
+    font-size: .78rem; letter-spacing: .12em; text-transform: uppercase;
+    font-weight: 700; color: var(--accent);
+  }
+  .variant:hover .open span { transform: translateX(4px); }
+  .open span { transition: transform .25s ease; }
+
+  /* --------------------------------------------------------- reszta ---- */
+
+  section.notes { border-top: 1px solid var(--line); padding-block: clamp(3rem, 7vw, 4.5rem); }
+  h3 { font-size: 1.15rem; margin: 0 0 1.25rem; letter-spacing: -0.01em; }
+  .cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); gap: 2.5rem; }
+  ol, ul { margin: 0; padding-left: 1.2rem; color: var(--dim); display: grid; gap: .7rem; font-size: .95rem; }
+  li::marker { color: var(--accent); }
+
+  footer.page { border-top: 1px solid var(--line); padding-block: 2rem 3rem; font-size: .8rem; color: var(--faint); }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="page">
+    <p class="eyebrow">Makieta · do wyboru</p>
+    <h1>Trzy pomysły na stronę. Wybierz jeden.</h1>
+    <p class="lede">
+      Każdy wariant ma <strong>identyczną treść i te same sekcje</strong>. Różni się
+      wyłącznie szatą graficzną: kolorami, typografią, układem i tym, jak się
+      zachowuje przy przewijaniu. Dzięki temu porównujesz wygląd, a nie zawartość.
+    </p>
+    <p class="lede">
+      Cała treść to <strong>wypełniacz</strong>. Zdjęć nie ma, są w ich miejsce
+      oznaczone ramki z opisem, jakiej fotografii tam potrzeba. Formularz niczego
+      nie wysyła, kalendarz niczego nie rezerwuje. Chodzi tylko o to, żebyś
+      zobaczył, jak to może wyglądać.
+    </p>
+  </header>
+
+  <div class="variants">
+
+    <a class="variant" href="skala.html">
+      <div class="thumb thumb-a">
+        <div class="thumb-inner">
+          <div class="bar"></div>
+          <p class="t-head">Wspinaj się<br>mądrzej</p>
+          <span class="t-sub"></span>
+          <span class="t-btn">Umów sesję</span>
+        </div>
+      </div>
+      <div class="variant-body">
+        <h2><span>A</span>Skała</h2>
+        <p>
+          Ciemny i kinowy. Duże zdjęcie na cały ekran, wąskie cienkie nagłówki,
+          bursztynowy akcent, delikatny parallax. Wygląda poważnie i drogo.
+          Wymaga dobrych zdjęć — na słabych się sypie.
+        </p>
+        <div class="swatches" aria-hidden="true">
+          <i style="background:#0E0E10"></i><i style="background:#17171A"></i>
+          <i style="background:#C8873F"></i><i style="background:#F5F3EF"></i>
+        </div>
+        <span class="open">Otwórz wariant <span>→</span></span>
+      </div>
+    </a>
+
+    <a class="variant" href="wapien.html">
+      <div class="thumb thumb-b">
+        <div class="thumb-inner">
+          <div class="bar"></div>
+          <p class="t-head">Wspinaj się<br>mądrzej</p>
+          <span class="t-sub"></span>
+          <span class="t-btn">Umów sesję</span>
+        </div>
+      </div>
+      <div class="variant-body">
+        <h2><span>B</span>Wapień</h2>
+        <p>
+          Jasny i redakcyjny. Złamana biel, zieleń, szeryfowe nagłówki, dużo
+          powietrza, hero podzielone na tekst i zdjęcie. Czyta się ciepło
+          i spokojnie. Wybaczy słabsze fotografie.
+        </p>
+        <div class="swatches" aria-hidden="true">
+          <i style="background:#FAF8F5"></i><i style="background:#F2EEE7"></i>
+          <i style="background:#2F4F3A"></i><i style="background:#1A1A18"></i>
+        </div>
+        <span class="open">Otwórz wariant <span>→</span></span>
+      </div>
+    </a>
+
+    <a class="variant" href="chwyt.html">
+      <div class="thumb thumb-c">
+        <div class="thumb-inner">
+          <div class="bar"></div>
+          <p class="t-head">Wspinaj<br>mądrzej</p>
+          <span class="t-sub"></span>
+          <span class="t-btn">Umów sesję</span>
+        </div>
+      </div>
+      <div class="variant-body">
+        <h2><span>C</span>Chwyt</h2>
+        <p>
+          Sportowy i głośny. Czerń, limonka, gigantyczna typografia cięta do
+          krawędzi, przewijający się pasek haseł, ostre narożniki. Młodo
+          i energicznie. Może odstraszyć starszego klienta.
+        </p>
+        <div class="swatches" aria-hidden="true">
+          <i style="background:#0A0A0A"></i><i style="background:#131313"></i>
+          <i style="background:#D6FF3D"></i><i style="background:#FFFFFF"></i>
+        </div>
+        <span class="open">Otwórz wariant <span>→</span></span>
+      </div>
+    </a>
+
+  </div>
+
+  <section class="notes">
+    <div class="cols">
+      <div>
+        <h3>Jak to oglądać</h3>
+        <ol>
+          <li>Otwórz każdy wariant i przewiń go do końca.</li>
+          <li>Na dole ekranu jest przełącznik — możesz skakać między wariantami bez wracania tutaj.</li>
+          <li>Obejrzyj też na telefonie. Większość ludzi trafi na stronę właśnie stamtąd.</li>
+          <li>Nie czytaj treści. Ona i tak pójdzie do kosza.</li>
+        </ol>
+      </div>
+      <div>
+        <h3>Czego potrzebuję od Ciebie</h3>
+        <ul>
+          <li>Który wariant, albo co byś w którymś zmienił.</li>
+          <li>Zdjęcia. Bez nich żadna z tych stron nie zadziała, a wariant ciemny najmniej.</li>
+          <li>Czy pokazujemy stawki publicznie, czy tylko „wycena indywidualna”.</li>
+          <li>Czy masz opinie podopiecznych, których możesz użyć z imienia.</li>
+          <li>Czy kalendarz ma pokazywać wolne terminy, czy wystarczy formularz.</li>
+          <li>Jakie uprawnienia i tytuły chcesz wymienić.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <footer class="page">
+    Makieta wizualna. Treść, ceny, zdjęcia i dane kontaktowe są zmyślone
+    i nie mają nic wspólnego z rzeczywistością.
+  </footer>
+
+</div>
+
+</body>
+</html>
