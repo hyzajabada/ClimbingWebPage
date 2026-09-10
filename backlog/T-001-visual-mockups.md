@@ -65,6 +65,16 @@ biznesowej: cała weryfikacja polega na otwarciu stron i obejrzeniu ich w przegl
 tym na szerokości telefonu. Automatyzacja zostanie zaproponowana przy pierwszej zmianie,
 która wprowadzi zachowanie warte przypięcia testem.
 
+## Podgląd  <!-- dated: 2026-09-10 -->
+
+Makiety są wystawione na GitHub Pages: <https://hyzajabada.github.io/ClimbingWebPage/>
+
+Serwowane z gałęzi `main`, katalog `/`. Każdy push publikuje się sam, bez klikania.
+Repozytorium jest publiczne, bo Pages tego wymaga na darmowym planie. Strony mają
+`noindex`, więc nie trafiają do wyszukiwarek.
+
+Lokalnie: `python -m http.server 8123`, potem `http://localhost:8123`.
+
 ## Pytania do klienta
 
 Zbierane w trakcie. Do zadania po obejrzeniu makiet:
