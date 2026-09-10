@@ -51,29 +51,23 @@ body { line-height: 1.72; }
 
 /* ------------------------------------------------------------------ hero -- */
 
-/* Zdjęcie zajmuje prawą część ekranu zamiast całego tła. Układ czyta się
-   jak rozkładówka w magazynie: tekst po lewej, obraz po prawej. */
+/* Tekst wyśrodkowany na jasno przymglonym zdjęciu. Zdjęcie zostaje tłem,
+   ale zamiast je przyciemniać, przykrywamy je kremową mgłą. */
 .hero {
   align-items: center;
+  text-align: center;
   padding-block: clamp(9rem, 20vh, 13rem) var(--section-pad);
 }
 
-.hero-media {
-  left: auto;
-  right: 0;
-  width: 44%;
-  padding: 1.5rem 1.5rem 1.5rem 0;
-}
-.hero-media .hero-figure {
-  position: relative;
-  inset: auto;
-  height: 100%;
-  border-radius: var(--radius-media);
+.hero-media::after {
+  background:
+    linear-gradient(to bottom, rgb(250 248 245 / .84), rgb(250 248 245 / .93) 60%, var(--bg) 100%);
 }
 
-.hero-inner { padding-right: 46%; }
-.hero-title { font-weight: 500; }
-.hero-lede { max-width: 27rem; }
+.hero-title { font-weight: 500; max-width: 18ch; margin-inline: auto; }
+.hero-lede { max-width: 30rem; margin-inline: auto; }
+.hero .eyebrow { justify-content: center; }
+.hero-actions { justify-content: center; }
 
 /* Hero jest tu wyśrodkowane i kończy się wysoko — podpowiedź przewijania
    nie miałaby czego wskazywać. */
@@ -126,20 +120,5 @@ body { line-height: 1.72; }
 /* ---------------------------------------------------------- responsywne -- */
 
 @media (max-width: 62rem) {
-  /* Zdjęcie jest pierwsze w kodzie, więc na wąskim ekranie odwracamy
-     kolejność w kolumnie: najpierw tekst, zdjęcie pod nim. */
-  .hero {
-    flex-direction: column-reverse;
-    justify-content: flex-end;
-    min-height: 0;
-    padding-block: clamp(8rem, 18vh, 10rem) 0;
-  }
-  .hero-media {
-    position: relative;
-    width: auto;
-    padding: 0;
-    margin-top: 3rem;
-  }
-  .hero-media .hero-figure { aspect-ratio: 4 / 3; height: auto; }
-  .hero-inner { padding-right: 0; }
+  .hero { padding-block: clamp(8rem, 18vh, 10rem) var(--section-pad); }
 }

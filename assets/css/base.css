@@ -267,10 +267,32 @@ p:last-child { margin-bottom: 0; }
 .hero-title { font-size: var(--fs-h1); margin-bottom: 1.5rem; }
 .hero-lede { font-size: var(--fs-lede); color: var(--text-dim); max-width: 34rem; margin-bottom: 2.5rem; }
 .hero-actions { display: flex; flex-wrap: wrap; gap: 1rem; }
+/* Zdjęcie hero jest TŁEM: leży pod treścią w każdym wariancie. Warianty
+   różnią się nakładką i ustawieniem tekstu, nie położeniem zdjęcia. */
 .hero-media { position: absolute; inset: 0; z-index: 0; }
+
 /* Podwójny selektor celowo: .ph niżej w tym pliku ustawia position: relative
-   i przy równej wadze wygrywałoby, spłaszczając warstwę do wysokości etykiety. */
-.hero-media .hero-figure { position: absolute; inset: 0; }
+   i przy równej wadze wygrywałoby, spłaszczając warstwę do wysokości etykiety.
+   Zapas pod spodem jest na parallax, który przesuwa warstwę w dół. */
+.hero-media .hero-figure {
+  position: absolute;
+  inset: -6% 0 -20% 0;
+  border: 0;
+  border-radius: 0;
+  /* Opis potrzebnego zdjęcia ląduje w prawym górnym rogu: pod paskiem
+     nawigacji i z dala od nagłówka. */
+  align-content: start;
+  justify-items: end;
+  padding: 8rem clamp(1.25rem, 4vw, 3rem) 0 0;
+}
+
+/* Nakładka rozdzielająca tekst od zdjęcia. Tło ustawia każdy wariant sam. */
+.hero-media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
 
 .scroll-hint {
   position: absolute;

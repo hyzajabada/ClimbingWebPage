@@ -52,16 +52,16 @@ h3 { text-transform: uppercase; letter-spacing: -0.02em; }
 
 /* ------------------------------------------------------------------ hero -- */
 
-/* Asymetria: tekst trzyma lewą krawędź, zdjęcie wchodzi z prawej i jest
-   przycięte. Nagłówek celowo wychodzi poza siatkę. */
+/* Asymetria robiona nakładką, nie przesuwaniem zdjęcia: tło jest pod całą
+   sekcją, ale gęstnieje po lewej, gdzie stoi nagłówek. */
 .hero { align-items: center; }
 
-.hero-media {
-  left: 55%;
-  width: 45%;
-  inset-block: 14vh 18vh;
+.hero-media::after {
+  background:
+    linear-gradient(100deg, rgb(10 10 10 / .94) 0%, rgb(10 10 10 / .88) 38%,
+                            rgb(10 10 10 / .62) 70%, rgb(10 10 10 / .45) 100%),
+    linear-gradient(to bottom, transparent 60%, var(--bg) 100%);
 }
-.hero-media .hero-figure { inset: 0; }
 
 .hero-inner { padding-right: 34%; }
 
@@ -156,11 +156,15 @@ h3 { text-transform: uppercase; letter-spacing: -0.02em; }
 
 @media (max-width: 62rem) {
   .hero-inner { padding-right: 0; }
-  .hero-media { left: 45%; width: 55%; opacity: .35; }
 }
 
 @media (max-width: 52rem) {
   .hero { align-items: flex-end; }
-  .hero-media { left: 0; width: 100%; inset-block: 0; opacity: .22; }
   .hero-title { margin-left: 0; }
+  /* Na wąskim ekranie tekst zajmuje całą szerokość, więc nakładka musi
+     być równomiernie gęsta, a nie mocniejsza po jednej stronie. */
+  .hero-media::after {
+    background:
+      linear-gradient(rgb(10 10 10 / .86), rgb(10 10 10 / .9) 55%, var(--bg) 100%);
+  }
 }
