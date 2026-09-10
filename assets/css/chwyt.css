@@ -63,15 +63,16 @@ h3 { text-transform: uppercase; letter-spacing: -0.02em; }
     linear-gradient(to bottom, transparent 60%, var(--bg) 100%);
 }
 
-.hero-inner { padding-right: 34%; }
-
+/* Nagłówek dostaje pełną szerokość kontenera. Procentowy margines z prawej
+   wciskał go w wąską kolumnę i na szerokim monitorze robił z dwóch linii
+   pięć, przy pustej reszcie ekranu. Podział na linie robi <br> w treści. */
 .hero-title {
   margin-left: -0.06em;
   font-weight: 900;
 }
 .hero-title br { display: block; }
 
-.hero-lede { max-width: 26rem; }
+.hero-lede { max-width: 30rem; }
 
 .scroll-hint { color: var(--accent); }
 
@@ -153,10 +154,6 @@ h3 { text-transform: uppercase; letter-spacing: -0.02em; }
 .site-footer { border-top-width: 2px; }
 
 /* ---------------------------------------------------------- responsywne -- */
-
-@media (max-width: 62rem) {
-  .hero-inner { padding-right: 0; }
-}
 
 @media (max-width: 52rem) {
   .hero { align-items: flex-end; }
